@@ -7,15 +7,24 @@ const props = defineProps<{
 }>();
 
 const { onMountedCopyButton, onMouseEnter, onMouseLeave } = useCopyButton();
-const html = await codeToHtml(props.code, {
+const initialHtml = await codeToHtml(props.code, {
   lang: props.lang,
   themes: { light: 'github-light', dark: 'github-dark' }
+});
+
+const codeAsHtml = ref<string>(initialHtml);
+watch([() => props.code, () => props.lang], async ([newCode, newLang]) => {
+  const html = await codeToHtml(newCode, {
+    lang: newLang,
+    themes: { light: 'github-light', dark: 'github-dark' }
+  });
+  codeAsHtml.value = html;
 });
 </script>
 
 <template>
   <div class="component-code-wrap" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
-    <div v-html="html"></div>
+    <div v-html="codeAsHtml"></div>
     <div class="copy-button-wrap">
       <CopyButton
         :code="props.code"

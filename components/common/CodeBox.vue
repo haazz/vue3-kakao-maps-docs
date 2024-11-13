@@ -25,7 +25,8 @@ const codeWrapElement = ref<HTMLDivElement>();
 const showMoreButton = ref<boolean>(false);
 const isShowMoreButtonClicked = ref<boolean>(false);
 const showMoreButtonMessage = computed<string>(() => (isShowMoreButtonClicked.value ? '접기' : '더보기'));
-const codeWrapMaxHeight = '700px';
+const codeWrapMaxHeight = 700;
+const codeWrapMaxHeightAsPixel = codeWrapMaxHeight + 'px';
 const darkGray = '#1f1f1f';
 const lightGray = '#f5f5f5';
 
@@ -36,7 +37,7 @@ const decideShowMore = () => {
   if (codeWrapElement.value !== undefined && codeWrapElement.value.children.length > 0) {
     const childElement = [...codeWrapElement.value.children][0];
     const childHeight = childElement.clientHeight;
-    if (childHeight > codeWrapElement.value.clientHeight) {
+    if (childHeight > codeWrapMaxHeight) {
       showMoreButton.value = true;
     }
   }
@@ -45,7 +46,7 @@ const decideShowMore = () => {
 const onClickShowMoreButton = () => {
   if (codeWrapElement.value !== undefined) {
     if (isShowMoreButtonClicked.value) {
-      codeWrapElement.value.style.maxHeight = codeWrapMaxHeight;
+      codeWrapElement.value.style.maxHeight = codeWrapMaxHeightAsPixel;
     } else {
       codeWrapElement.value.style.maxHeight = 'initial';
     }
@@ -152,7 +153,7 @@ onMounted(() => {
     .code-wrap {
       border-radius: 5px;
       border: 2px solid $gray-4;
-      max-height: v-bind(codeWrapMaxHeight);
+      max-height: v-bind(codeWrapMaxHeightAsPixel);
       overflow: hidden;
       position: relative;
       background-color: $light-mode-code-bg;
