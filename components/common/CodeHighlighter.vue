@@ -13,9 +13,9 @@ const initialHtml = await codeToHtml(props.code, {
 });
 
 const codeAsHtml = ref<string>(initialHtml);
-watch(props, async (newProps) => {
-  const html = await codeToHtml(newProps.code, {
-    lang: newProps.lang,
+watch([() => props.code, () => props.lang], async ([newCode, newLang]) => {
+  const html = await codeToHtml(newCode, {
+    lang: newLang,
     themes: { light: 'github-light', dark: 'github-dark' }
   });
   codeAsHtml.value = html;
