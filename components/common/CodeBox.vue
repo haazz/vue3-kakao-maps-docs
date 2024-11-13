@@ -37,7 +37,7 @@ const decideShowMore = () => {
   if (codeWrapElement.value !== undefined && codeWrapElement.value.children.length > 0) {
     const childElement = [...codeWrapElement.value.children][0];
     const childHeight = childElement.clientHeight;
-    if (childHeight > 700) {
+    if (childHeight > codeWrapMaxHeight) {
       showMoreButton.value = true;
     }
   }
